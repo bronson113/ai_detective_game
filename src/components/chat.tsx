@@ -6,14 +6,18 @@ import { Input } from "./ui/input";
 import Bubble from "./bubble";
 import { ScrollArea } from "./ui/scroll-area";
 import { Send } from "lucide-react";
+import { Spinner } from "./ui/spinner";
 
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
 
+const printable: RegExp = /^[ -~]+$/;
+
 export function MainChat() {
   const [input, setInput] = useState("");
+  const [error, setError] = useState("");
   const initialMessage = {
     role: "assistant",
     content:
@@ -23,18 +27,32 @@ export function MainChat() {
 
   const queryAI = api.chat.chat.useMutation({
     onSuccess: (data) => {
+      if (data.length == 0) {
+        setError("The detective doesn't understand your question");
+        setInput("");
+        return;
+      }
       const resultingMessage = {
         role: "assistant",
         content: data,
       } as Message;
 
       setMessages([...messages, resultingMessage]);
+      setError("");
       setInput("");
     },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!printable.test(input)) {
+      setError("Please ask your question in English");
+      return;
+    }
+    if (input.length > 1000) {
+      setError("Your question are too long");
+      return;
+    }
     const prompt = {
       role: "user",
       content: input,
