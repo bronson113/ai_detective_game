@@ -20,8 +20,11 @@ export function MainChat() {
   const [error, setError] = useState("");
   const initialMessage = {
     role: "assistant",
-    content:
-      "Welcome to murder mystery. In a spooky night, a sudden attack appeared",
+    content: `Welcome to murder mystery. 
+After a full moon night, something horrible has happened. The kind lady in town, Mrs. Sloane was found dead in her room. 
+You are appointed as the lead detective of this case.
+There are little clues to the incident. Luckily, you found a witness.
+Question away and uncover the mystery that happened in that spooky night.`,
   } as Message;
   const [messages, setMessages] = useState<Array<Message>>([initialMessage]);
 
