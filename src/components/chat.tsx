@@ -81,10 +81,11 @@ export function MainChat() {
           return <Bubble key={i} role={el.role} content={el.content} />;
         })}
       </ScrollArea>
+      <div className="text-rose-600">{error ? error : ""}</div>
       <form onSubmit={handleSubmit} className="mb-4 flex space-x-2 text-white">
         <Input
           type="text"
-          placeholder="Type your message..."
+          placeholder="Ask me something..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="flex-1 border-rose-200"
@@ -96,6 +97,7 @@ export function MainChat() {
         >
           <Send className="h-4 w-4" />
         </Button>
+        <Spinner show={queryAI.isPending} className="text-rose-200" />
       </form>
     </div>
   );
