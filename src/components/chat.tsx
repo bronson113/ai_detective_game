@@ -13,7 +13,7 @@ type Message = {
   content: string;
 };
 
-const printable: RegExp = /^[ -~]+$/;
+const printable = /^[ -~]+$/;
 
 export function MainChat() {
   const [input, setInput] = useState("");
