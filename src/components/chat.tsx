@@ -72,9 +72,14 @@ Question away and uncover the mystery that happened in that spooky night.`,
   return (
     <div className="flex flex-1 flex-col">
       <header className="flex items-center justify-between rounded bg-[#8458] p-4">
-        <h1 className="text-xl font-semibold text-rose-600">Murder Mystery</h1>
+        <h1 className="font-serif text-xl font-semibold text-rose-600">
+          Murder Mystery
+        </h1>
         <div className="">
-          <Button onClick={reset} className="bg-[#8458] text-xl text-rose-600">
+          <Button
+            onClick={reset}
+            className="bg-[#8458] font-sans text-lg font-semibold text-rose-600"
+          >
             Reset
           </Button>
         </div>
