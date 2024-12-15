@@ -7,7 +7,7 @@ export default async function Home() {
   return (
     <HydrateClient>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#4e022d] to-[#2c1615]">
-        <div className="flex h-screen w-[80%]">
+        <div className="flex h-screen w-screen md:w-[80%]">
           <MainChat />
         </div>
       </main>

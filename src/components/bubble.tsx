@@ -12,7 +12,7 @@ export default function Bubble({
   if (role === "user") {
     return (
       <div className="mb-4 flex justify-end">
-        <div className="max-w-[80%] whitespace-pre-line rounded-lg bg-blue-500 p-3 text-white">
+        <div className="max-w-[100%] whitespace-pre-line rounded-lg bg-blue-500 p-3 text-white md:max-w-[80%]">
           {content}
         </div>
       </div>
@@ -20,7 +20,7 @@ export default function Bubble({
   } else {
     return (
       <div className="mb-4 flex justify-start">
-        <div className="max-w-[80%] whitespace-pre-line rounded-lg bg-gray-200 p-3">
+        <div className="max-w-[100%] whitespace-pre-line rounded-lg bg-gray-200 p-3 md:max-w-[80%]">
           {content}
         </div>
       </div>
