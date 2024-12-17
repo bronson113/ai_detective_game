@@ -80,7 +80,9 @@ export const chatRouter = createTRPCRouter({
         model: openai("gpt-4o-mini"),
         messages,
       });
-      console.log(input.prompts[input.prompts.length - 1]);
+      input.prompts.forEach((text) => {
+        console.log(text);
+      });
       console.log(res.text);
       console.log(res.usage);
       return res.text;
