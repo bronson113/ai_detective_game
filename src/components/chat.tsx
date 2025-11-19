@@ -5,8 +5,10 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import Bubble from "./bubble";
 import { ScrollArea } from "./ui/scroll-area";
-import { Send } from "lucide-react";
+import { EditIcon, Send } from "lucide-react";
 import { Spinner } from "./ui/spinner";
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "./ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 type Message = {
   role: "user" | "assistant";
@@ -27,6 +29,7 @@ There are little clues to the incident. Luckily, you found a witness.
 Question away and uncover the mystery that happened in that spooky night.`,
   } as Message;
   const [messages, setMessages] = useState<Array<Message>>([initialMessage]);
+  const [username, setUsername] = useState("");
 
   const queryAI = api.chat.chat.useMutation({
     onSuccess: (data) => {
@@ -62,7 +65,7 @@ Question away and uncover the mystery that happened in that spooky night.`,
     } as Message;
     const updatedMessages = [...messages, prompt];
     setMessages(updatedMessages);
-    queryAI.mutate({ prompts: updatedMessages });
+    queryAI.mutate({ prompts: updatedMessages, username: username });
   };
 
   const reset = () => {
@@ -75,10 +78,10 @@ Question away and uncover the mystery that happened in that spooky night.`,
         <h1 className="font-serif text-xl font-semibold text-rose-600">
           Murder Mystery
         </h1>
-        <div className="">
+        <div className="flex gap-3">
           <Button
             onClick={reset}
-            className="bg-[#8458] font-sans text-lg font-semibold text-rose-600"
+            className="m-auto bg-[#8458] font-sans text-lg font-semibold text-rose-600"
           >
             Reset
           </Button>
@@ -89,7 +92,33 @@ Question away and uncover the mystery that happened in that spooky night.`,
           return <Bubble key={i} role={el.role} content={el.content} />;
         })}
       </ScrollArea>
-      <div className="text-rose-600">{error ? error : ""}</div>
+      <div className="flex flex-wrap-reverse justify-between px-4 text-rose-600">
+        <Dialog>
+          <DialogTrigger>
+            <div className="flex gap-3">
+              <span className="m-auto text-white">User: {username}</span>
+              <EditIcon className="m-auto text-white" />
+            </div>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Set user name</DialogTitle>
+            <Input
+              type="text"
+              placeholder="Your name"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <DialogClose asChild>
+              <Button type="button" disabled={username === ""}>
+                Done
+              </Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
+        <span className="text-nowrap">
+          {username === "" ? "Please set a username" : error ? error : ""}
+        </span>
+      </div>
       <form onSubmit={handleSubmit} className="mb-4 flex space-x-2 text-white">
         <Input
           type="text"
@@ -101,7 +130,7 @@ Question away and uncover the mystery that happened in that spooky night.`,
         <Button
           type="submit"
           className="bg-rose-800"
-          disabled={queryAI.isPending}
+          disabled={queryAI.isPending || username === ""}
         >
           <Send className="h-4 w-4" />
         </Button>

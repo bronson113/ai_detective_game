@@ -69,6 +69,7 @@ export const chatRouter = createTRPCRouter({
         prompts: z
           .array(z.object({ role: Roles, content: z.string().min(1) }))
           .min(1),
+        username: z.string().min(1),
       }),
     )
     .mutation(async ({ input }) => {
@@ -80,6 +81,7 @@ export const chatRouter = createTRPCRouter({
         model: openai("gpt-4o-mini"),
         messages,
       });
+      console.log(input.username);
       input.prompts.forEach((text) => {
         console.log(text);
       });
